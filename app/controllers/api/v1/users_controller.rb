@@ -8,7 +8,7 @@ module API
             
             # Should work if the current_user is authenticated.
             def index
-                render json: {status: 200, msg: 'Logged-in'}
+                render json: { status: 200, msg: 'Logged-in' }
             end
 
             # Method to create a new user using the safe params we setup.

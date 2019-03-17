@@ -12,8 +12,10 @@
 #  updated_at :datetime         not null
 #
 
-class Employee < ApplicationRecord
-  belongs_to :user
-  has_many :shifts
-  validates_presence_of :first_name, :last_name, :entry_date
+require 'rails_helper'
+
+RSpec.describe Employee, type: :model do
+    it { should validate_presence_of(:first_name) }
+    it { should validate_presence_of(:last_name) }
+    it { should validate_presence_of(:entry_date) }
 end

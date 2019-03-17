@@ -12,7 +12,11 @@
 #  comment     :text
 #
 
-class Shift < ApplicationRecord
-  belongs_to :employee
-  validates_presence_of :date, :check_in, :check_out
+require 'rails_helper'
+
+RSpec.describe Shift, type: :model do
+    it { should validate_presence_of(:check_in) }
+    it { should validate_presence_of(:check_out) }
+    it { should validate_presence_of(:date) }
+    it { should belong_to(:employee) }
 end

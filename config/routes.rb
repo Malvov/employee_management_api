@@ -14,7 +14,7 @@ Rails.application.routes.draw do
 
   concern :user_actions do
       # Get login token from Knock
-      post   'login', to: 'user_token#create'
+      post   'user_token', to: 'user_token#create'
   
       # User actions
       get    '/users', to: 'users#index'

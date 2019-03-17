@@ -19,7 +19,6 @@ class User < ApplicationRecord
 
   accepts_nested_attributes_for :employee, reject_if: :all_blank, allow_destroy: true
   
-  # Basic password validation, configure to your liking.
   validates_length_of       :password, maximum: 72, minimum: 8, allow_nil: true, allow_blank: false
   validates_confirmation_of :password, allow_nil: true, allow_blank: false
 
