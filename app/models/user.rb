@@ -1,6 +1,23 @@
+# == Schema Information
+#
+# Table name: users
+#
+#  id              :bigint(8)        not null, primary key
+#  username        :string           not null
+#  email           :string           not null
+#  password_digest :string
+#  role            :string           default("user"), not null
+#  created_at      :datetime         not null
+#  updated_at      :datetime         not null
+#
+
 class User < ApplicationRecord
     # Necessary to authenticate.
   has_secure_password
+
+  has_one :employee
+
+  accepts_nested_attributes_for :employee, reject_if: :all_blank, allow_destroy: true
   
   # Basic password validation, configure to your liking.
   validates_length_of       :password, maximum: 72, minimum: 8, allow_nil: true, allow_blank: false
@@ -11,12 +28,10 @@ class User < ApplicationRecord
   }
 
   # Make sure email and username are present and unique.
-  validates_presence_of     :email
-  validates_presence_of     :username
-  validates_uniqueness_of   :email
-  validates_uniqueness_of   :username
+  validates_presence_of     :email, :username
+  validates_uniqueness_of   :email, :username
 
-  # This method gives us a simple call to check if a user has permission to modify.
+  # This method gives us a simple call to check if a user has permission to see it's own info.
   def can_see_info?(user_id)
     role == 'admin' || id.to_s == user_id.to_s
   end

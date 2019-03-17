@@ -17,7 +17,7 @@ module API
                 if user.save
                     render json: {status: 200, msg: 'User was created.'}
                 else
-                    render json: { status: 403, msg: 'Something went wrong' }
+                    render json: { status: 400, msg: 'Something went wrong' }
                 end
             end
             
@@ -26,6 +26,8 @@ module API
                 user = User.find(params[:id])
                 if user.update(user_params)
                  render json: { status: 200, msg: 'User details have been updated.' }
+                else
+                    render json: { status: 400, msg: 'Something went wrong' }
                 end
             end
             
@@ -34,28 +36,23 @@ module API
                 user = User.find(params[:id])
                 if user.destroy
                     render json: { status: 200, msg: 'User has been deleted.' }
+                else
+                    render json: { status: 400, msg: 'Something went wrong' }
                 end
             end
-  
-            
-            # Call this method to check if the user is logged-in.
-            # If the user is logged-in we will return the user's information.
-            def current
-                current_user.update!(last_login: Time.now)
-                render json: current_user
-            end
-            
+          
             private
             
             # Setting up strict parameters for when we add account creation.
             def user_params
-                params.require(:user).permit(:username, :email, :password, :password_confirmation)
+                params.require(:user).permit(:username, :email, :password, :password_confirmation,
+                    employee_attributes: [:id, :first_name, :last_name, :entry_date, :active])
             end
             
             # Adding a method to check if current_user can update itself. 
             # This uses our UserModel method.
             def authorize
-                return_unauthorized unless current_user && current_user.can_see_info?(params[:id])
+                return_unauthorized unless current_user && current_user.is_admin?
             end
         end
     end
