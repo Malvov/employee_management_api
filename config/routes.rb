@@ -5,11 +5,15 @@ Rails.application.routes.draw do
   get    'auth', to: 'home#auth'
 
   concern :api_base do
-    concerns :employee_actions, :user_actions
+    concerns :employee_actions, :user_actions, :shift_actions
   end
 
   concern :employee_actions do
     resources :employees, only: [:index, :show]
+  end
+
+  concern :shift_actions do
+    resources :shifts, except: [:new, :edit]
   end
 
   concern :user_actions do

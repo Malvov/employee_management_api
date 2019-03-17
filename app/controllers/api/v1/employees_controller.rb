@@ -9,7 +9,7 @@ module API
                     @employees = Employee.all
                     render json: @employees
                 else
-                    render json: { status: 403, msg: "You're not authorized to see this page" }
+                    render status: :forbidden
                 end
             end
 
@@ -21,7 +21,7 @@ module API
             private
 
             def authorize
-                return_unauthorized unless current_user && current_user.can_see_info?(params[:id])
+                render status: :forbidden unless current_user && current_user.can_see_info?(params[:id])
             end
         end
     end
