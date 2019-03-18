@@ -14,7 +14,7 @@ module API
             end
 
             def show
-                @employee = current_user.employee
+                @employee = Employee.find(params[:id])
                 render json: @employee
             end
 

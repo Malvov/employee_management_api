@@ -31,8 +31,8 @@ class User < ApplicationRecord
   validates_uniqueness_of   :email, :username
 
   # This method gives us a simple call to check if a user has permission to see it's own info.
-  def can_see_info?(user_id)
-    role == 'admin' || id.to_s == user_id.to_s
+  def can_see_info?(employee_id)
+    role == 'admin' || employee.id.to_s == employee_id.to_s
   end
 
   # This method tells us if the user is an admin or not.

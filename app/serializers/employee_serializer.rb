@@ -6,14 +6,14 @@
 #  first_name :string
 #  last_name  :string
 #  entry_date :date
-#  active     :boolean
+#  active     :boolean          default(FALSE)
 #  user_id    :bigint(8)
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #
 
 class EmployeeSerializer < ApplicationSerializer
-  attributes :id, :name, :entry_date
+  attributes :id, :name, :entry_date, :active
   has_many :shifts
 
   def name

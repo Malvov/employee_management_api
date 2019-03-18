@@ -14,5 +14,5 @@
 
 class Shift < ApplicationRecord
   belongs_to :employee
-  validates_presence_of :date, :check_in, :check_out
+  validates_presence_of :date, :check_in, :check_out, :employee_id
 end

@@ -2,9 +2,8 @@ module API
     module V1
         class UsersController < ApplicationController
             # Use Knock to make sure the current_user is authenticated before completing request.
-            before_action :authenticate_user,  only: [:index, :update]
+            before_action :authenticate_user, except: [:create]
             before_action :authorize_as_admin, only: [:destroy, :update]
-            before_action :authorize,          only: [:index]
             
             # Should work if the current_user is authenticated.
             def index
@@ -46,14 +45,10 @@ module API
             # Setting up strict parameters for when we add account creation.
             def user_params
                 params.require(:user).permit(:username, :email, :password, :password_confirmation,
+                    :role,
                     employee_attributes: [:id, :first_name, :last_name, :entry_date, :active])
             end
             
-            # Adding a method to check if current_user can update itself. 
-            # This uses our UserModel method.
-            def authorize
-                return_unauthorized unless current_user && current_user.is_admin?
-            end
         end
     end
 end

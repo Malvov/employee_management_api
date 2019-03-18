@@ -13,5 +13,6 @@
 #
 
 class ShiftSerializer < ApplicationSerializer
-  attributes :id
+  attributes :id, :check_in, :check_out, :comment
+  belongs_to :employee
 end

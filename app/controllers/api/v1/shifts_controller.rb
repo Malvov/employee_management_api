@@ -25,7 +25,7 @@ module API
 
             def update
                 if @shift.update(shift_params)
-                    render json: @person, status: 200, location: api_v1_shifts_path(@shift)
+                    render json: @person, status: :created, location: api_v1_shifts_path(@shift)
                 else
                     render json: @shift, status: :unprocessable_entity
                 end
