@@ -21,6 +21,7 @@ Rails.application.routes.draw do
       post   'user_token', to: 'user_token#create'
   
       # User actions
+      get    '/user', to: 'users#show'
       get    '/users', to: 'users#index'
       get    '/users/current', to: 'users#current'
       post   '/users/create', to: 'users#create'

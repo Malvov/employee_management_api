@@ -12,5 +12,6 @@
 #
 
 class UserSerializer < ApplicationSerializer
-  attributes :id, :email, :username, :role, :created_at, :updated_at
+  attributes :id, :email, :username, :role
+  has_one :employee
 end

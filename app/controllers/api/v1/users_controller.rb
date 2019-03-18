@@ -10,6 +10,10 @@ module API
                 render json: { status: 200, msg: 'Logged-in' }
             end
 
+            def show
+                render json: current_user
+            end
+
             # Method to create a new user using the safe params we setup.
             def create
                 @user = User.new(user_params)
