@@ -23,7 +23,6 @@ Rails.application.routes.draw do
       # User actions
       get    '/user', to: 'users#show'
       get    '/users', to: 'users#index'
-      get    '/users/current', to: 'users#current'
       post   '/users/create', to: 'users#create'
       patch  '/user/:id', to: 'users#update'
       delete '/user/:id', to: 'users#destroy'
