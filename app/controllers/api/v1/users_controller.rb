@@ -4,14 +4,21 @@ module API
             # Use Knock to make sure the current_user is authenticated before completing request.
             before_action :authenticate_user
             before_action :authorize_as_admin, only: [:create, :destroy, :update]
+            before_action :set_user, only: [:update, :destroy]
             
             # Should work if the current_user is authenticated.
             def index
-                render json: { status: 200, msg: 'Logged-in' }
+                @users = User.all
+                render json: @users
             end
 
             def show
-                render json: current_user
+                if params[:id] == 'login'
+                    @user = current_user
+                else
+                    @user = User.find(params[:id]) 
+                end
+                render json: @user
             end
 
             # Method to create a new user using the safe params we setup.
@@ -26,7 +33,6 @@ module API
             
             # Method to update a specific user. User will need to be authorized.
             def update
-                @user = User.find(params[:id])
                 if @user.update(user_params)
                  render json: @user
                 else
@@ -36,7 +42,6 @@ module API
             
             # Method to delete a user, this method is only for admin accounts.
             def destroy
-                @user = User.find(params[:id])
                 if @user.destroy
                     render json: { status: 200, msg: 'User has been deleted.' }
                 else
@@ -51,6 +56,10 @@ module API
                 params.require(:user).permit(:username, :email, :password, :password_confirmation,
                     :role,
                     employee_attributes: [:id, :first_name, :last_name, :entry_date, :active])
+            end
+
+            def set_user
+                @user = User.find(params[:id])
             end
             
         end

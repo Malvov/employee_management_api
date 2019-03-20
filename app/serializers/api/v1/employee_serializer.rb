@@ -12,11 +12,12 @@
 #  updated_at :datetime         not null
 #
 
-class EmployeeSerializer < ApplicationSerializer
-  attributes :id, :name, :entry_date, :active
-  has_many :shifts
-
-  def name
-    object.first_name + ' ' + object.last_name
+module API
+  module V1
+    class EmployeeSerializer < ApplicationSerializer
+      attributes :id, :entry_date, :active, :first_name, :last_name, :user_id
+      has_many :shifts
+    end
   end
 end
+

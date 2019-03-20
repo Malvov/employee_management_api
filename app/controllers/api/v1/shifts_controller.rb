@@ -2,11 +2,15 @@ module API
     module V1
         class ShiftsController < ApplicationController
             before_action :authenticate_user
-            before_action :authorize_as_admin
+            before_action :authorize_as_admin, except: [:index]
             before_action :set_shift, only: [:show, :update, :destroy]
             
             def index
-                @shifts = Shift.all
+                if current_user.is_admin?
+                    @shifts = Shift.all
+                else
+                    @shifts = current_user.employee.shifts
+                end
                 render json: @shifts
             end
             
@@ -25,14 +29,18 @@ module API
 
             def update
                 if @shift.update(shift_params)
-                    render json: @person, status: :created, location: api_v1_shifts_path(@shift)
+                    render json: @shift, status: :created, location: api_v1_shifts_path(@shift)
                 else
                     render json: @shift, status: :unprocessable_entity
                 end
             end
 
             def destroy
-                @shift.destroy
+                if @shift.destroy
+                    render json: { status: 'ok' }
+                else
+                    render json: { status: :unprocessable_entity }
+                end
             end
 
             private
@@ -42,7 +50,7 @@ module API
                 end
 
                 def shift_params
-                    params.require(:shift).permit(:date, :check_in, :check_out, :employee_id)
+                    params.require(:shift).permit(:date, :check_in, :check_out, :employee_id, :comment)
                 end
 
         end

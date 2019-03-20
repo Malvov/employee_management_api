@@ -9,10 +9,12 @@ Rails.application.routes.draw do
   end
 
   concern :employee_actions do
+    # Employee actions, create and update from User
     resources :employees, only: [:index, :show]
   end
 
   concern :shift_actions do
+    # Shifts actions
     resources :shifts, except: [:new, :edit]
   end
 
@@ -21,11 +23,7 @@ Rails.application.routes.draw do
       post   'user_token', to: 'user_token#create'
   
       # User actions
-      get    '/user', to: 'users#show'
-      get    '/users', to: 'users#index'
-      post   '/users/create', to: 'users#create'
-      patch  '/user/:id', to: 'users#update'
-      delete '/user/:id', to: 'users#destroy'
+      resources :users
   end
   
   namespace :api do

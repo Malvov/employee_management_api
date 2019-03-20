@@ -10,8 +10,12 @@
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
 #
-
-class UserSerializer < ApplicationSerializer
-  attributes :id, :email, :username, :role
-  has_one :employee
+module API
+  module V1
+    class UserSerializer < ApplicationSerializer
+      attributes :id, :email, :username, :role
+      has_one :employee
+    end
+  end
 end
+

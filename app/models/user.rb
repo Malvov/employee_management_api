@@ -15,7 +15,7 @@ class User < ApplicationRecord
     # Necessary to authenticate.
   has_secure_password
 
-  has_one :employee
+  has_one :employee, dependent: :destroy
 
   accepts_nested_attributes_for :employee, reject_if: :all_blank, allow_destroy: true
   
@@ -28,7 +28,7 @@ class User < ApplicationRecord
 
   # Make sure email and username are present and unique.
   validates_presence_of     :email, :username
-  validates_uniqueness_of   :email, :username
+  validates_uniqueness_of   :email, :username, on: :create
 
   # This method gives us a simple call to check if a user has permission to see it's own info.
   def can_see_info?(employee_id)
