@@ -3,7 +3,7 @@ class HomeController < ApplicationController
 
     # Public method
     def index
-      render json: { service: 'auth-api', status: 200 }
+      render json: { message: 'Please check out https://github.com/Malvov/shifts_management_api' }
     end
     
     # Authorized only method
